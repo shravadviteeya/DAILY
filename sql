@@ -27,4 +27,13 @@ ENAME  | SALARY | SALARY_ROW_NUMBER | SALARY_RANK | SALARY_DENSE_RANK |
 +--------+--------+-------------------+-------------+-------------------+
 11 rows in set (0.00 sec)
 
+select CustomerID,Sales,Country, row_number() over(order by  Sales DESC) as row_number_by_sales from test.`e-commerce`;
+
+USE OF LEAD AND LAG FOR SALES TREND ANALYSIS.
+
+select CustomerID, InvoiceNumber, InvoiceDate,Country,Device,Sales, 
+LAG(Sales) over(partition by Device,Country order by InvoiceDate) as Previous_Sales,
+LEAD(Sales) over(partition by Device, Country order by InvoiceDate) as Next_Sales, 
+Sales - LAG(Sales) over(partition by Device, Country order by InvoiceDate) as Sales_Difference from test.`e-commerce`;
+
 
